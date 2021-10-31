@@ -1,0 +1,40 @@
+#--h-sky-theme-popup {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 160px;
+}
+
+:root {
+  --cr-theme-icon-size: 50px;
+}
+
+.theme {
+  cursor: pointer;
+  display: block;
+}
+
+.theme, svg {
+  height: var(--cr-theme-icon-size);
+  width: var(--cr-theme-icon-size);
+}
+
+.ring {
+  fill: #a3c7f6;
+  visibility: hidden;
+}
+
+.checkMark {
+  visibility: hidden;
+}
+
+.theme.selected .ring, .theme.selected .checkMark {
+  visibility: visible;
+}
+
+.checkMark circle {
+  fill: #1a73e8;
+}
+
+.checkMark path {
+  fill: white;
+}

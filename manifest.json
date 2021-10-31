@@ -1,0 +1,31 @@
+{
+  "name": "Sky Theme",
+  "description": "Customize your skyroom",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://vc.sharif.edu/*"],
+      "js": ["popup.js"]
+    }
+  ],
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "/images/sky-theme16.png",
+      "32": "/images/sky-theme32.png",
+      "64": "/images/sky-theme64.png",
+      "128": "/images/sky-theme128.png"
+    }
+  },
+  "icons": {
+    "16": "/images/sky-theme16.png",
+    "32": "/images/sky-theme32.png",
+    "64": "/images/sky-theme64.png",
+    "128": "/images/sky-theme128.png"
+  }
+}
