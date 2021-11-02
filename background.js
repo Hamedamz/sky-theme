@@ -124,4 +124,5 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.set({ themes });
   chrome.storage.sync.set({ selectedTheme: themes[3] });
   chrome.storage.sync.set({ isDark: false });
+  chrome.storage.sync.set({ isMirror: false });
 });

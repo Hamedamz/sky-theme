@@ -2,9 +2,11 @@
   if(!document.getElementById('--h-sky-theme-popup')) {
     injectTheme()
     setDarkSlideShow()
+    setMirroredWebcam()
     return
   }
 
+  //themes
   chrome.storage.sync.get('themes', ({ themes }) => {
     chrome.storage.sync.get('selectedTheme', ({ selectedTheme }) => {
       themes.forEach(theme => {
@@ -21,6 +23,7 @@
     })
   })
 
+  //dark
   const darkCheckbox = document.getElementById('--h-dark-checkbox')
 
   chrome.storage.sync.get('isDark', ({ isDark }) => {
@@ -41,6 +44,27 @@
     });
   }
 
+  //mirror
+  const mirrorCheckbox = document.getElementById('--h-mirror-checkbox')
+
+  chrome.storage.sync.get('isMirror', ({ isMirror }) => {
+    mirrorCheckbox.checked = isMirror
+    changeMirror()
+
+    mirrorCheckbox.addEventListener('change', changeMirror)
+  })
+
+  async function changeMirror() {
+    chrome.storage.sync.set({ isMirror: mirrorCheckbox.checked })
+
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+  
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: setMirroredWebcam,
+    });
+  }
+
   async function changeTheme(element, theme) {
     Array.from(document.getElementsByClassName('theme'))
       .forEach((element) => element.classList.remove('selected'))
@@ -54,6 +78,19 @@
       target: { tabId: tab.id },
       function: injectTheme,
     });
+  }
+
+
+  // the body of this function must be self contained
+
+  function setMirroredWebcam() {
+    chrome.storage.sync.get('isMirror', ({ isMirror }) => {
+      if (isMirror) {
+        document.body.classList.add('--h-sky-theme-mirror')
+      } else {
+        document.body.classList.remove('--h-sky-theme-mirror')
+      }
+    })
   }
 
   // the body of this function must be self contained
@@ -221,7 +258,9 @@
       }
       `;
 
-    const darkCss = `body.--h-sky-theme-dark .slide-wrapper { filter: invert(0.9) hue-rotate(180deg); }`
+    const darkCss = `
+      body.--h-sky-theme-dark .slide-wrapper { filter: invert(0.9) hue-rotate(180deg); }
+      body.--h-sky-theme-mirror video[muted] { transform: scale(-1, 1); }`
   
     let style = document.getElementById('--h-sky-theme-style')
     const cssTextNode = document.createTextNode(css + darkCss)
