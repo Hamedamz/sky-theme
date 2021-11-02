@@ -82,8 +82,12 @@
         --border-bottom-color: ${theme.borderBottomColor};
       }
       
-      .block, .menu-items, .dialog, .board, .list, .chat .emoji-list {
+      .block, .menu-items, .dialog, .board, .list, .chat .emoji-list, .chat .pinned-message {
         background-color: var(--bg-color-front);
+      }
+
+      .chat .pinned-message {
+        filter: brightness(1.1);
       }
   
       .block, .menu-items, .dialog {
